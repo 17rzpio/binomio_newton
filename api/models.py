@@ -39,3 +39,19 @@ class RegistroNumeros(models.Model):
 
     def __str__(self):
         return f"Registro {self.id}: {self.quantidade} números"
+
+
+class CalculoBhaskara(models.Model):
+    numero_calculo = models.BigAutoField(primary_key=True)
+    a = models.IntegerField()
+    b = models.IntegerField()
+    c = models.IntegerField()
+    delta = models.BigIntegerField()
+    raiz1_real = models.FloatField()
+    raiz1_imag = models.FloatField()
+    raiz2_real = models.FloatField()
+    raiz2_imag = models.FloatField()
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Cálculo {self.numero_calculo}"
