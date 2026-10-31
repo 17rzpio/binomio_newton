@@ -121,6 +121,25 @@ def registro_por_id(request, registro_id):
 
     return JsonResponse(serializar(registro))
 
+def raiz_quadrada(valor):
+    # Para delta negativo, a raiz é imaginária.
+    if valor < 0:
+        return complex(0, raiz_quadrada(-valor))
+
+    if valor == 0:
+        return 0.0
+
+    estimativa = float(valor) if valor >= 1 else 1.0
+
+    for _ in range(1000):
+        nova_estimativa = (estimativa + valor / estimativa) / 2
+
+        if abs(nova_estimativa - estimativa) < 1e-12:
+            return nova_estimativa
+
+        estimativa = nova_estimativa
+
+    raise ArithmeticError("Não foi possível calcular a raiz quadrada.")
 
 def formatar_calculo(calculo):
     return {
@@ -176,7 +195,7 @@ def calculos(request):
         )
 
     delta = b**2 - 4 * a * c
-    raiz_delta = cmath.sqrt(delta)
+    raiz_delta = raiz_quadrada(delta)
 
     raiz1 = (-b + raiz_delta) / (2 * a)
     raiz2 = (-b - raiz_delta) / (2 * a)
